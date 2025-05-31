@@ -1,7 +1,10 @@
+import LoginForm from "../components/auth/LoginForm"
 
 const LoginPage = () => {
   return (
-    <div>LoginPage</div>
+    <AuthLayout title={"login"}>
+        <LoginForm/>
+    </AuthLayout>
   )
 }
 

@@ -1,7 +1,11 @@
+import RegisterForm from "../components/auth/RegisterForm"
+import AuthLayout from "../components/AuthLayout"
 
 const RegisterPage = () => {
   return (
-    <div>RegisterPage</div>
+    <AuthLayout title={"Sign up"}>
+        <RegisterForm/>
+    </AuthLayout>
   )
 }
 
