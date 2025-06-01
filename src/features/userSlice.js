@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import instance from "../utils/axiosInstance";
 
 const initialState = {
@@ -38,10 +37,14 @@ export const userSlice = createSlice({
         }
     },
     extraReducers:(builder)=>{
-        builder.addCase(registerUser?.pending,(state,action)=>{
+        builder.addCase(registerUser?.pending,(state)=>{
             state.status = "loading"
         }).addCase(registerUser?.fulfilled,(state,action)=>{
-            state.status = "succeeded"
+            state.status = "succeeded",
+            state.user = action?.payload?.data?.user
+        }).addCase(registerUser?.rejected,(state,action)=>{
+            state.status = "failed",
+            state.error = action?.payload || "Something went wrong"
         })
     }
 })
