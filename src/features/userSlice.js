@@ -16,7 +16,11 @@ const initialState = {
 
 export const registerUser = createAsyncThunk("auth/register",async(values,{rejectWithValue})=>{
     try{
-        const res = await instance.post(`/auth/register`,values);
+        const res = await instance.post(`/auth/register`,values,{
+            headers:{
+                "Content-Type":"application/json"
+            }
+        });
         if(res?.status === 200){
             return res?.data
         }
