@@ -21,7 +21,7 @@ export const registerUser = createAsyncThunk("auth/register",async(values,{rejec
                 "Content-Type":"application/json"
             }
         });
-        if(res?.status === 200){
+        if(res?.status === 201){
             return res?.data
         }
     }catch(error){
@@ -29,6 +29,16 @@ export const registerUser = createAsyncThunk("auth/register",async(values,{rejec
     }
 })
 
+export const loginUser = createAsyncThunk("auth/login",async(values,{rejectWithValue})=>{
+    try{
+        const res = await instance.post(`/auth/login`,values);
+        if(res?.status === 200){
+            return res?.data
+        }
+    }catch(error){
+        rejectWithValue(error?.response?.data?.error?.message)
+    }
+})
 
 export const userSlice = createSlice({
     name:'user',
@@ -48,6 +58,15 @@ export const userSlice = createSlice({
             state.user = action?.payload?.data?.user
         }).addCase(registerUser?.rejected,(state,action)=>{
             state.status = "failed",
+            state.error = action?.payload || "Something went wrong"
+        }),
+        builder.addCase(loginUser?.pending,(state)=>{
+            state.status = "loading"
+        }).addCase(loginUser?.fulfilled,(state,action)=>{
+            state.status = "success",
+            state.user = action.payload?.data?.user
+        }).addCase(loginUser?.rejected,(state,action)=>{
+             state.status = "failed",
             state.error = action?.payload || "Something went wrong"
         })
     }

@@ -2,21 +2,33 @@ import { useForm } from "react-hook-form"
 import AuthInput from "./AuthInput"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { signUpValidation } from "../../utils/validations"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
 import { registerUser } from "../../features/userSlice"
+import axios from "axios"
+import toast from "react-hot-toast"
 
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {status,error} = useSelector(state=> state?.user)
     const {register,handleSubmit,formState:{errors,isSubmitting}} = useForm({
         resolver:yupResolver(signUpValidation)
     })
     const registerSubmit = async (values)=>{
             try{
-                await dispatch(registerUser({...values,picture:""}))
+                const res = await dispatch(registerUser({...values,picture:""}))
+                
+                if(res?.meta?.requestStatus === "fulfilled"){
+                    toast.success("Registered successfully")
+                    navigate("/")
+                }
             }catch(error){
+                if(axios.isAxiosError(error) && error?.response){
+                    toast.error(error?.response?.data?.message)
+                }
+                toast.error("Registeration failed");
                 console.error("Registration error:", error);
             }
             }
