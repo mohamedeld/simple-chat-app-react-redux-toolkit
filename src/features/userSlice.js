@@ -59,8 +59,7 @@ export const userSlice = createSlice({
         }).addCase(registerUser?.rejected,(state,action)=>{
             state.status = "failed",
             state.error = action?.payload || "Something went wrong"
-        }),
-        builder.addCase(loginUser?.pending,(state)=>{
+        }).addCase(loginUser?.pending,(state)=>{
             state.status = "loading"
         }).addCase(loginUser?.fulfilled,(state,action)=>{
             state.status = "success",
