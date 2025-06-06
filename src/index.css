@@ -25,3 +25,12 @@
         --color-green_3: #005C4B;
         --color-green_4: #025144;
 }
+
+@layer components{
+  .container{
+    @apply w-[1700px] h-full
+  }
+  .btn{
+    @apply p-3 rounded-full flex items-center justify-center cursor-pointer active:bg-dark_hover_1;
+  }
+}
