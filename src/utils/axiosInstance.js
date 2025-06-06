@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 // Default config options
 const defaultOptions = {
@@ -9,11 +10,12 @@ const defaultOptions = {
 const instance = axios.create(defaultOptions);
 
 // Set the AUTH token for any request
-// instance.interceptors.request.use(async function (config) {
-//   config.headers.Authorization = session
-//     ? `Bearer ${session?.get("token")?.value}`
-//     : "";
-//   return config;
-// });
+instance.interceptors.request.use(async function (config) {
+  const {user} = useSelector(state=> state?.user);
+  config.headers.Authorization = user?.token
+    ? `Bearer ${user?.token}`
+    : "";
+  return config;
+});
 
 export default instance;

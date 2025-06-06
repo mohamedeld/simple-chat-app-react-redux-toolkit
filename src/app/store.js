@@ -11,6 +11,7 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import { chatSlice } from "../features/chatSlice";
 const saveUserOnlyFilter = createFilter("user",["user"])
 
 const persistConfig = {
@@ -21,7 +22,8 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-    user:userSlice.reducer
+    user:userSlice.reducer,
+    chat:chatSlice.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig,rootReducer);
