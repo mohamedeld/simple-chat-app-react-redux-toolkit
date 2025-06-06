@@ -9,9 +9,13 @@ const initialState = {
     notifications:[]
 }
 
-export const getConversations = createAsyncThunk("chat/conversation",async (values,{rejectWithValue})=>{
+export const getConversations = createAsyncThunk("chat/conversation",async (token,{rejectWithValue})=>{
     try{
-        const res = await instance.get(`/conversation`);
+        const res = await instance.get(`/conversation`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        });
     if(res?.status === 200){
         return res?.data
     }
